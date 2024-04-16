@@ -61,16 +61,24 @@ Categories:
     return newArr;
   }
 
-  console.log(`\nnewArr: ${createRandomArray(ChosenArray)}`);
+  console.log(`\nrandomArray: ${createRandomArray(ChosenArray)}\n`);
 
-  // create playground
-  const playground = [];
-  for (let i = 0; i < ChosenArray.length; i++) {
+  // create solution
+  const solutionArr = [];
+  ChosenArray.forEach(() => {
     const arr = createRandomArray(ChosenArray);
-    playground.push(arr);
+    solutionArr.push(arr);
+  });
+
+  console.log(solutionArr);
+
+  // hide solution
+  const hideArr = [];
+  for (let i = 0; i < solutionArr; i++) {
+    // ToDO
   }
 
-  console.log(playground);
+  console.log(hideArr);
 
   // end game or not
   let endGame = rl.question("\nWanna play again [y/n]?: ");
