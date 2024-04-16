@@ -1,14 +1,28 @@
 const categories = {
-  animals: ["Monkey", "Dog", "Rabbit", "Pigeon", "Dolphin"],
-  car_manufacturers: ["BMW", "Mercedes", "Ford", "Nissan", "Mitsubishi"],
-  numbers: ["123", "523", "1337", "752", "9523"],
-  sports: ["Tennis", "Football", "Baseball", "Badminton", "Boxing"],
-  movies: ["Mad Max", "Die Hard", "Frozen", "Bambi", "Bloodsport"],
+  animals: ["Monkey", "Dog", "Rabbit", "Pigeon", "Dolphin", "Snake"],
+  car_manufacturers: [
+    "BMW",
+    "Mercedes",
+    "Ford",
+    "Nissan",
+    "Mitsubishi",
+    "Ferrari",
+  ],
+  numbers: ["123", "523", "1337", "752", "9523", "4298"],
+  sports: ["Tennis", "Football", "Baseball", "Badminton", "Boxing", "Sailing"],
+  movies: [
+    "Mad Max",
+    "Die Hard",
+    "Frozen",
+    "Bambi",
+    "Bloodsport",
+    "One Piece Red",
+  ],
 };
 
 const rl = require("readline-sync");
 
-const end = false;
+let end = false;
 while (!end) {
   // print categories
   console.log(`
@@ -26,27 +40,48 @@ Categories:
     choice = rl.question("\nNo category found, pls choose a valid category: ");
   }
 
-  // generate arr
-  const grid = [];
-
   // randomize items in array
-  const getArr = Object.values(categories[choice]); // get needed array
-  console.log(`getArr: ${getArr}`);
+  const ChosenArray = Object.values(categories[choice]);
 
-  const usedNums = [];
-  const newArr = getArr.map((element) => {
-    let randNum = Math.floor(Math.random() * getArr.length);
-    if (!usedNums.includes(randNum)) {
-      usedNums.push(randNum);
-      return (element = getArr[randNum]);
-    } else {
-      while (usedNums.includes(randNum)) {
-        randNum = Math.floor(Math.random() * getArr.length);
+  function createRandomArray(arr) {
+    const usedNums = [];
+    const newArr = arr.map((element) => {
+      let randNum = Math.floor(Math.random() * arr.length);
+      if (!usedNums.includes(randNum)) {
+        usedNums.push(randNum);
+        return (element = arr[randNum]);
+      } else {
+        while (usedNums.includes(randNum)) {
+          randNum = Math.floor(Math.random() * arr.length);
+        }
+        usedNums.push(randNum);
+        return (element = arr[randNum]);
       }
-      usedNums.push(randNum);
-      return (element = getArr[randNum]);
-    }
-  });
+    });
+    return newArr;
+  }
 
-  console.log(`newArr: ${newArr}`);
+  console.log(`\nnewArr: ${createRandomArray(ChosenArray)}`);
+
+  // create playground
+  const playground = [];
+  for (let i = 0; i < ChosenArray.length; i++) {
+    const arr = createRandomArray(ChosenArray);
+    playground.push(arr);
+  }
+
+  console.log(playground);
+
+  // end game or not
+  let endGame = rl.question("\nWanna play again [y/n]?: ");
+  while (endGame !== "n" && endGame !== "y") {
+    endGame = rl.question(
+      "\nPlease choose between 'y' for yes and 'n' for no: "
+    );
+  }
+  if (endGame === "n") {
+    end = true;
+  }
 }
+
+console.log("\nSee you next time !");
