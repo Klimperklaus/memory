@@ -2,34 +2,20 @@ const rl = require("readline-sync");
 
 const categories = {
   animals: ["Monkey", "Dog", "Rabbit", "Pigeon", "Dolphin", "Snake"],
-  car_manufacturers: [
-    "BMW",
-    "Mercedes",
-    "Ford",
-    "Nissan",
-    "Mitsubishi",
-    "Ferrari",
-  ],
+  cars: ["BMW", "Mercedes", "Ford", "Nissan", "Mitsubishi", "Ferrari"],
   numbers: ["123", "523", "1337", "752", "9523", "4298"],
-  sports: ["Tennis", "Football", "Baseball", "Badminton", "Boxing", "Sailing"],
-  movies: [
-    "Mad Max",
-    "Die Hard",
-    "Frozen",
-    "Bambi",
-    "Bloodsport",
-    "One Piece Red",
-  ],
+  sports: ["Tennis", "Football", "Baseball", "Ski", "Boxing", "Sailing"],
+  movies: ["Mad Max", "Die Hard", "Frozen", "Bambi", "Bloodsport", "Jumanji"],
 };
 
-const end = false;
-game(end);
+game();
 
 console.log("\nSee you next time !");
 
 // functions
 
-function game(end) {
+function game() {
+  let end = false;
   while (!end) {
     // print categories
     printCategories(categories);
@@ -71,7 +57,7 @@ function game(end) {
     let finished = false;
     while (!finished) {
       // userinput for field
-      getUserCoordinates(hideArr);
+      getUserCoordinates();
       finished = true;
     }
 
@@ -87,8 +73,6 @@ function game(end) {
     }
   }
 }
-
-// functions
 
 function printCategories(obj) {
   console.log(`
@@ -116,24 +100,15 @@ function createRandomArray(arr) {
   return newArr;
 }
 
-function getUserCoordinates(arrMatching) {
+function getUserCoordinates() {
   let userInput = rl.question("Type in field coordinates: ");
+  // RegEx
+  let isInputValid = /^[0-5]{2}$/.test(parseInt(userInput));
+  while (!isInputValid) {
+    userInput = rl.question("Value not valid, range is [00 - 05 -> 50 - 55]: ");
+    isInputValid = /^[0-5]{2}$/.test(parseInt(userInput));
+  }
   let coordinate1 = parseInt(userInput[0]);
   let coordinate2 = parseInt(userInput[1]);
-  console.log();
-  while (
-    Number.isNaN(coordinate1) ||
-    coordinate1 > arrMatching.length - 1 ||
-    coordinate1 < 0 ||
-    Number.isNaN(coordinate2) ||
-    coordinate2 > arrMatching.length - 1 ||
-    coordinate2 < 0
-  ) {
-    userInput = rl.question(
-      "Value not valid, range is from [00 - 05 | 10 - 15 etc]: "
-    );
-    coordinate1 = parseInt(userInput[0]);
-    coordinate2 = parseInt(userInput[1]);
-  }
   console.log(`coordinate1: ${coordinate1}, coordinate2: ${coordinate2}`);
 }
