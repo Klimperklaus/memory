@@ -1,3 +1,5 @@
+const rl = require("readline-sync");
+
 const categories = {
   animals: ["Monkey", "Dog", "Rabbit", "Pigeon", "Dolphin", "Snake"],
   car_manufacturers: [
@@ -20,77 +22,108 @@ const categories = {
   ],
 };
 
-const rl = require("readline-sync");
+const end = false;
+game(end);
 
-let end = false;
-while (!end) {
-  // print categories
-  console.log(`
-Categories:
-***********\n`);
-  for (const cat in categories) {
-    console.log(`-> ${cat}`);
-  }
+console.log("\nSee you next time !");
 
-  // choose category
-  let choice = rl.question("\nChoose a category: ");
+// functions
 
-  // if userinput is not in categories array, get a new input until its valid
-  while (!Object.hasOwn(categories, choice)) {
-    choice = rl.question("\nNo category found, pls choose a valid category: ");
-  }
+function game(end) {
+  while (!end) {
+    // print categories
+    console.log(`
+  Categories:
+  ***********\n`);
+    for (const cat in categories) {
+      console.log(`-> ${cat}`);
+    }
 
-  // randomize items in array
-  const ChosenArray = Object.values(categories[choice]);
+    // choose category
+    let choice = rl.question("\nChoose a category: ");
 
-  function createRandomArray(arr) {
-    const usedNums = [];
-    const newArr = arr.map((element) => {
-      let randNum = Math.floor(Math.random() * arr.length);
-      if (!usedNums.includes(randNum)) {
-        usedNums.push(randNum);
-        return (element = arr[randNum]);
-      } else {
-        while (usedNums.includes(randNum)) {
-          randNum = Math.floor(Math.random() * arr.length);
-        }
-        usedNums.push(randNum);
-        return (element = arr[randNum]);
+    // if userinput is not in categories array, get a new input until its valid
+    while (!Object.hasOwn(categories, choice)) {
+      choice = rl.question(
+        "\nNo category found, pls choose a valid category: "
+      );
+    }
+
+    // randomize items in array
+    const chosenArray = Object.values(categories[choice]);
+
+    console.log(`\nchosenArray: ${chosenArray}\n`);
+
+    // create solution
+    const solutionArr = [];
+
+    chosenArray.forEach(() => {
+      const arr = createRandomArray(chosenArray);
+      solutionArr.push(arr);
+    });
+
+    console.log("SolutionArr: \n", solutionArr);
+
+    // hide solution
+    const hideArr = solutionArr.map((item) => {
+      return item.map((_element) => {
+        return (_element = "x");
+      });
+    });
+
+    console.log("\nhideArr: \n", hideArr);
+
+    let finished = false;
+    while (!finished) {
+      // userinput for field
+      let userInput = rl.question("Type in field coordinates: ");
+      let coordinate1 = parseInt(userInput[0]);
+      let coordinate2 = parseInt(userInput[1]);
+      console.log();
+      while (
+        Number.isNaN(coordinate1) ||
+        coordinate1 > hideArr.length - 1 ||
+        coordinate1 < 0 ||
+        Number.isNaN(coordinate2) ||
+        coordinate2 > hideArr.length - 1 ||
+        coordinate2 < 0
+      ) {
+        userInput = rl.question(
+          "Value not valid, range is from [00 - 05 | 10 - 15 etc]: "
+        );
+        coordinate1 = parseInt(userInput[0]);
+        coordinate2 = parseInt(userInput[1]);
       }
-    });
-    return newArr;
-  }
+      console.log(`coordinate1: ${coordinate1}, coordinate2: ${coordinate2}`);
+      finished = true;
+    }
 
-  console.log(`\nrandomArray: ${createRandomArray(ChosenArray)}\n`);
-
-  // create solution
-  const solutionArr = [];
-  ChosenArray.forEach(() => {
-    const arr = createRandomArray(ChosenArray);
-    solutionArr.push(arr);
-  });
-
-  console.log(solutionArr);
-
-  // hide solution
-  const hideArr = solutionArr.map((item) => {
-    return item.map(() => {
-      return (element = "x");
-    });
-  });
-
-  console.log(hideArr);
-
-  // end game or not
-  let endGame = rl.question("\nWanna play again [y/n]?: ");
-  while (endGame !== "n" && endGame !== "y") {
-    endGame = rl.question(
-      "\nPlease choose between 'y' for yes and 'n' for no: "
-    );
-  }
-  if (endGame === "n") {
-    end = true;
+    // end game or not
+    let endGame = rl.question("\nWanna play again [y/n]?: ");
+    while (endGame !== "n" && endGame !== "y") {
+      endGame = rl.question(
+        "\nPlease choose between 'y' for yes and 'n' for no: "
+      );
+    }
+    if (endGame === "n") {
+      end = true;
+    }
   }
 }
 
-console.log("\nSee you next time !");
+function createRandomArray(arr) {
+  const usedNums = [];
+  const newArr = arr.map(() => {
+    let randNum = Math.floor(Math.random() * arr.length);
+    if (!usedNums.includes(randNum)) {
+      usedNums.push(randNum);
+      return (element = arr[randNum]);
+    }
+    while (usedNums.includes(randNum)) {
+      randNum = Math.floor(Math.random() * arr.length);
+    }
+    usedNums.push(randNum);
+    return (element = arr[randNum]);
+  });
+  return newArr;
+}
