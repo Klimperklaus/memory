@@ -103,10 +103,10 @@ function createRandomArray(arr) {
 function getUserCoordinates() {
   let userInput = rl.question("Type in field coordinates: ");
   // RegEx
-  let isInputValid = /^[0-5]{2}$/.test(parseInt(userInput));
+  let isInputValid = /^[0-5]{2}$/.test(userInput);
   while (!isInputValid) {
     userInput = rl.question("Value not valid, range is [00 - 05 -> 50 - 55]: ");
-    isInputValid = /^[0-5]{2}$/.test(parseInt(userInput));
+    isInputValid = /^[0-5]{2}$/.test(userInput);
   }
   let coordinate1 = parseInt(userInput[0]);
   let coordinate2 = parseInt(userInput[1]);
