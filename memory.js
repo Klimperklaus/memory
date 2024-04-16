@@ -57,7 +57,10 @@ function game() {
     let finished = false;
     while (!finished) {
       // userinput for field
-      getUserCoordinates();
+      const userCoordinates = getUserCoordinates();
+      console.log(
+        `userCoordinates: col = ${userCoordinates.col}, row = ${userCoordinates.row}`
+      );
       finished = true;
     }
 
@@ -110,5 +113,6 @@ function getUserCoordinates() {
   }
   let coordinate1 = parseInt(userInput[0]);
   let coordinate2 = parseInt(userInput[1]);
-  console.log(`coordinate1: ${coordinate1}, coordinate2: ${coordinate2}`);
+
+  return { col: coordinate1, row: coordinate2 };
 }
