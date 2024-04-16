@@ -40,12 +40,15 @@ function game() {
       solutionArr.push(arr);
     });
 
-    console.log("solutionArr: \n", solutionArr);
+    console.log("\nsolutionArr: \n", solutionArr);
 
     // hide solution
-    const hideArr = solutionArr.map((item) => {
+    const hideArr = solutionArr.map((item, i) => {
       return item.map((_element) => {
-        return (_element = "<(*.*<)");
+        if (i % 2 == 0) {
+          return (_element = "(>*_*<)");
+        }
+        return (_element = "(>0.0<)");
       });
     });
 
