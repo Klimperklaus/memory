@@ -33,22 +33,19 @@ function game() {
     // randomize items in array
     const chosenArray = Object.values(categories[choice]);
 
-    console.log(`\nchosenArray: ${chosenArray}\n`);
-
     // create solution
     const solutionArr = [];
-
     chosenArray.forEach(() => {
       const arr = createRandomArray(chosenArray);
       solutionArr.push(arr);
     });
 
-    console.log("SolutionArr: \n", solutionArr);
+    console.log("solutionArr: \n", solutionArr);
 
     // hide solution
     const hideArr = solutionArr.map((item) => {
       return item.map((_element) => {
-        return (_element = "x");
+        return (_element = "<(*.*<)");
       });
     });
 
@@ -96,11 +93,13 @@ function createRandomArray(arr) {
 }
 
 function getUserCoordinates() {
-  let userInput = rl.question("Type in field coordinates: ");
+  let userInput = rl.question("\nType in field coordinates: ");
   // RegEx
   let isInputValid = /^[0-5]{2}$/.test(userInput);
   while (!isInputValid) {
-    userInput = rl.question("Value not valid, range is [00 - 05 -> 50 - 55]: ");
+    userInput = rl.question(
+      "\nValue not valid, range is [00 - 05 -> 50 - 55]: "
+    );
     isInputValid = /^[0-5]{2}$/.test(userInput);
   }
   let coordinate1 = parseInt(userInput[0]);
