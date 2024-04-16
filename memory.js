@@ -30,22 +30,23 @@ Categories:
   const grid = [];
 
   // randomize items in array
+  const getArr = Object.values(categories[choice]); // get needed array
+  console.log(`getArr: ${getArr}`);
 
-  const usedRandNums = [];
-
-  for (const element of categories[choice]) {
-    let randNum = Math.floor(Math.random() * categories[choice].length);
-    if (!usedRandNums.includes(randNum)) {
-      usedRandNums.push(randNum);
-      grid.push(categories[choice][randNum]);
+  const usedNums = [];
+  const newArr = getArr.map((element) => {
+    let randNum = Math.floor(Math.random() * getArr.length);
+    if (!usedNums.includes(randNum)) {
+      usedNums.push(randNum);
+      return (element = getArr[randNum]);
     } else {
-      while (usedRandNums.includes(randNum)) {
-        randNum = Math.floor(Math.random() * categories[choice].length);
+      while (usedNums.includes(randNum)) {
+        randNum = Math.floor(Math.random() * getArr.length);
       }
-      usedRandNums.push(randNum);
-      grid.push(categories[choice][randNum]);
+      usedNums.push(randNum);
+      return (element = getArr[randNum]);
     }
-  }
+  });
 
-  console.log(grid);
+  console.log(`newArr: ${newArr}`);
 }
