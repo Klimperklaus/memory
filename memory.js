@@ -73,10 +73,11 @@ Categories:
   console.log(solutionArr);
 
   // hide solution
-  const hideArr = [];
-  for (let i = 0; i < solutionArr; i++) {
-    // ToDO
-  }
+  const hideArr = solutionArr.map((item, index) => {
+    return item.map((element) => {
+      return (element[index] = "x");
+    });
+  });
 
   console.log(hideArr);
 
