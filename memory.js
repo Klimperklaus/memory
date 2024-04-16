@@ -73,9 +73,9 @@ Categories:
   console.log(solutionArr);
 
   // hide solution
-  const hideArr = solutionArr.map((item, index) => {
-    return item.map((element) => {
-      return (element[index] = "x");
+  const hideArr = solutionArr.map((item) => {
+    return item.map(() => {
+      return (element = "x");
     });
   });
 
