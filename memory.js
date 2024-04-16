@@ -76,25 +76,7 @@ function game(end) {
     let finished = false;
     while (!finished) {
       // userinput for field
-      let userInput = rl.question("Type in field coordinates: ");
-      let coordinate1 = parseInt(userInput[0]);
-      let coordinate2 = parseInt(userInput[1]);
-      console.log();
-      while (
-        Number.isNaN(coordinate1) ||
-        coordinate1 > hideArr.length - 1 ||
-        coordinate1 < 0 ||
-        Number.isNaN(coordinate2) ||
-        coordinate2 > hideArr.length - 1 ||
-        coordinate2 < 0
-      ) {
-        userInput = rl.question(
-          "Value not valid, range is from [00 - 05 | 10 - 15 etc]: "
-        );
-        coordinate1 = parseInt(userInput[0]);
-        coordinate2 = parseInt(userInput[1]);
-      }
-      console.log(`coordinate1: ${coordinate1}, coordinate2: ${coordinate2}`);
+      getUserCoordinates(hideArr);
       finished = true;
     }
 
@@ -126,4 +108,26 @@ function createRandomArray(arr) {
     return (element = arr[randNum]);
   });
   return newArr;
+}
+
+function getUserCoordinates(arrMatching) {
+  let userInput = rl.question("Type in field coordinates: ");
+  let coordinate1 = parseInt(userInput[0]);
+  let coordinate2 = parseInt(userInput[1]);
+  console.log();
+  while (
+    Number.isNaN(coordinate1) ||
+    coordinate1 > arrMatching.length - 1 ||
+    coordinate1 < 0 ||
+    Number.isNaN(coordinate2) ||
+    coordinate2 > arrMatching.length - 1 ||
+    coordinate2 < 0
+  ) {
+    userInput = rl.question(
+      "Value not valid, range is from [00 - 05 | 10 - 15 etc]: "
+    );
+    coordinate1 = parseInt(userInput[0]);
+    coordinate2 = parseInt(userInput[1]);
+  }
+  console.log(`coordinate1: ${coordinate1}, coordinate2: ${coordinate2}`);
 }
