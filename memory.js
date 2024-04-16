@@ -32,20 +32,15 @@ console.log("\nSee you next time !");
 function game(end) {
   while (!end) {
     // print categories
-    console.log(`
-  Categories:
-  ***********\n`);
-    for (const cat in categories) {
-      console.log(`-> ${cat}`);
-    }
+    printCategories(categories);
 
-    // choose category
-    let choice = rl.question("\nChoose a category: ");
+    // user choose category
+    let choice = rl.question("\nType in a category name: ");
 
     // if userinput is not in categories array, get a new input until its valid
     while (!Object.hasOwn(categories, choice)) {
       choice = rl.question(
-        "\nNo category found, pls choose a valid category: "
+        "\nNo matching category found, pls choose a valid category name: "
       );
     }
 
@@ -90,6 +85,17 @@ function game(end) {
     if (endGame === "n") {
       end = true;
     }
+  }
+}
+
+// functions
+
+function printCategories(obj) {
+  console.log(`
+Categories:
+***********\n`);
+  for (const cat in obj) {
+    console.log(`-> ${cat}`);
   }
 }
 
