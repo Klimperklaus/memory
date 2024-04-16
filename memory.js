@@ -65,15 +65,7 @@ function game() {
     }
 
     // end game or not
-    let endGame = rl.question("\nWanna play again [y/n]?: ");
-    while (endGame !== "n" && endGame !== "y") {
-      endGame = rl.question(
-        "\nPlease choose between 'y' for yes and 'n' for no: "
-      );
-    }
-    if (endGame === "n") {
-      end = true;
-    }
+    end = endTheGame();
   }
 }
 
@@ -115,4 +107,17 @@ function getUserCoordinates() {
   let coordinate2 = parseInt(userInput[1]);
 
   return { col: coordinate1, row: coordinate2 };
+}
+
+function endTheGame() {
+  let endGame = rl.question("\nWanna play again [y/n]?: ");
+  while (endGame !== "n" && endGame !== "y") {
+    endGame = rl.question(
+      "\nPlease choose between [y] for 'yes' and [n] for 'no': "
+    );
+  }
+  if (endGame === "n") {
+    return true;
+  }
+  return false;
 }
