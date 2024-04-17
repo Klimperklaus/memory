@@ -58,8 +58,10 @@ function game() {
     let defaultCoordinates = [];
     let round1String;
     let round2String;
+    let points = 0;
+    let lastMatch = null;
     while (!finished) {
-      // set counter back if needed
+      // back to default
       if (counter > 2) {
         counter = 1;
         defaultCoordinates = [];
@@ -69,7 +71,11 @@ function game() {
       }
 
       if (counter === 1) {
-        console.log(hideArr);
+        console.log("\n\n\n\n\n", hideArr);
+        console.log("Points: ", points);
+        if (lastMatch !== null) {
+          console.log("Last Match: ", lastMatch);
+        }
       }
 
       // userinput for field
@@ -106,9 +112,14 @@ function game() {
       console.log("defaultCoordinates: ", defaultCoordinates);
 
       console.log("\nsolArr: \n", solutionArr);
-      console.log(hideArr);
+      console.log("\n\n\n\n\n", hideArr);
+      console.log("Points: ", points);
+      if (lastMatch !== null) {
+        console.log("Last Match: ", lastMatch);
+      }
 
       if (round1String !== round2String && counter === 2) {
+        console.log("\nNO MATCH ...");
         rl.question(
           "Take your time to memorize, then press [ENTER] to continue..."
         );
@@ -116,6 +127,11 @@ function game() {
           defaultCoordinates[counter - 1];
         hideArr[usedCoordinates[0].col][usedCoordinates[0].row] =
           defaultCoordinates[counter - 2];
+      }
+
+      if (round1String === round2String && counter === 2) {
+        points++;
+        lastMatch = round1String;
       }
 
       counter++;
