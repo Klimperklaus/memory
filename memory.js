@@ -40,7 +40,7 @@ function game() {
       solutionArr.push(arr);
     });
 
-    console.log("\nsolutionArr: \n", solutionArr);
+    // console.log("\nsolutionArr: \n", solutionArr);
 
     // hide solution
     const hideArr = solutionArr.map((item, i) => {
@@ -68,7 +68,9 @@ function game() {
         round2String = "";
       }
 
-      console.log(hideArr);
+      if (counter === 1) {
+        console.log(hideArr);
+      }
 
       // userinput for field
       let userCoordinates = getUserCoordinates();
@@ -104,7 +106,7 @@ function game() {
       console.log("defaultCoordinates: ", defaultCoordinates);
 
       console.log("\nsolArr: \n", solutionArr);
-      console.log("\nhideArr: \n", hideArr);
+      console.log(hideArr);
 
       if (round1String !== round2String && counter === 2) {
         rl.question(
