@@ -182,6 +182,7 @@ function gameLoop(solution, hide) {
     counter++;
 
     if (points === 18) {
+      console.log("Points: ", points);
       finished = true;
     }
   }
