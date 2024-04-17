@@ -49,144 +49,147 @@ function game() {
       });
     });
 
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    let finished = false;
-    let counter = 1;
-    let usedCoordinates = [];
-    let defaultCoordinates = [];
-    let round1String;
-    let round2String;
-    let points = 0;
-    let lastMatch = null;
-    let endDev = true;
-    let devLog = false;
-    while (!finished) {
-      // back to default
-      if (counter > 2) {
-        counter = 1;
-        defaultCoordinates = [];
-        usedCoordinates = [];
-        round1String = "";
-        round2String = "";
-      }
+    gameLoop(solutionArr, hideArr);
 
-      if (counter === 1) {
-        console.log("\n\n\n\n\n", hideArr);
-        console.log("Points: ", points);
-        if (lastMatch !== null) {
-          console.log("Last Match: ", lastMatch);
-        }
-      }
+    // end game or not
+    console.log(
+      "\n(>*.*)> Congratulations, you made it, well played ! <(*.*<)"
+    );
+    end = endTheGame();
+  }
+  //////////////////////////////////////////////////////////////////////////////////////////////
 
-      // developer option, only for presentation
-      if (endDev) {
-        let devEnd = rl.question("\nDEV -> Wanna end [y/n]?: ");
-        if (devEnd === "y") {
-          break;
-        }
-        if (devEnd === "n") {
-          endDev = false;
-          const devDecision = rl.question(
-            "\nDEV -> Wanna activate variable logging [y/n]?: "
-          );
-          if (devDecision === "y") {
-            devLog = true;
-          }
-        }
-      }
+  //////////////////////////////////////////////////////////////////////////////////////////////
+}
 
-      // userinput for field
-      let userCoordinates = getUserCoordinates();
+function gameLoop(solution, hide) {
+  let finished = false;
+  let counter = 1;
+  let usedCoordinates = [];
+  let defaultCoordinates = [];
+  let round1String;
+  let round2String;
+  let points = 0;
+  let lastMatch = null;
+  let endDev = true;
+  let devLog = false;
+  while (!finished) {
+    // back to default
+    if (counter > 2) {
+      counter = 1;
+      defaultCoordinates = [];
+      usedCoordinates = [];
+      round1String = "";
+      round2String = "";
+    }
 
-      if (devLog) {
-        console.log("\n\n\n\n\n///////////// DEV ZONE /////////////");
-        console.log(
-          `\nuserCoordinates: col = ${userCoordinates.col}, row = ${userCoordinates.row}`
-        );
-      }
-
-      if (devLog) {
-        console.log("counter: ", counter);
-      }
-
-      usedCoordinates.push(userCoordinates);
-
-      if (devLog) {
-        console.log("usedCoordinates: ", usedCoordinates);
-      }
-
-      // backup if compared values are false
-      defaultCoordinates.push(
-        hideArr[userCoordinates.col][userCoordinates.row]
-      );
-
-      //  reveal hideArr
-      hideArr[userCoordinates.col][userCoordinates.row] =
-        solutionArr[userCoordinates.col][userCoordinates.row];
-
-      if (counter === 1) {
-        round1String = solutionArr[userCoordinates.col][userCoordinates.row];
-      }
-
-      if (counter === 2) {
-        round2String = solutionArr[userCoordinates.col][userCoordinates.row];
-      }
-
-      if (devLog) {
-        console.log("round1String: ", round1String);
-        console.log("round2String: ", round2String);
-
-        console.log("defaultCoordinates: ", defaultCoordinates);
-        console.log("\n////////////////////////////////////\n\n");
-      }
-
-      if (devLog) {
-        console.log("\nsolArr: \n", solutionArr);
-      }
-
-      if (devLog) {
-        console.log(hideArr);
-      }
-
-      if (!devLog) {
-        console.log("\n\n\n\n\n", hideArr);
-      }
-
+    if (counter === 1) {
+      console.log("\n\n\n\n\n", hide);
       console.log("Points: ", points);
       if (lastMatch !== null) {
         console.log("Last Match: ", lastMatch);
       }
+    }
 
-      if (round1String !== round2String && counter === 2) {
-        console.log("\nNO MATCH ...");
-        rl.question(
-          "Take your time to memorize, then press [ENTER] to continue..."
+    // developer option, only for presentation
+    if (endDev) {
+      let devEnd = rl.question("\nDEV -> Wanna end [y/n]?: ");
+      if (devEnd === "y") {
+        break;
+      }
+      if (devEnd === "n") {
+        endDev = false;
+        const devDecision = rl.question(
+          "\nDEV -> Wanna activate variable logging [y/n]?: "
         );
-        hideArr[usedCoordinates[1].col][usedCoordinates[1].row] =
-          defaultCoordinates[counter - 1];
-        hideArr[usedCoordinates[0].col][usedCoordinates[0].row] =
-          defaultCoordinates[counter - 2];
-      }
-
-      if (round1String === round2String && counter === 2) {
-        points++;
-        lastMatch = round1String;
-      }
-
-      counter++;
-
-      if (points === 18) {
-        finished = true;
+        if (devDecision === "y") {
+          devLog = true;
+        }
       }
     }
 
-    console.log(
-      "\n(>*.*)> Congratulations, you made it, well played ! <(*.*<)"
-    );
-    // end game or not
-    end = endTheGame();
+    // userinput for field
+    let userCoordinates = getUserCoordinates();
+
+    if (devLog) {
+      console.log("\n\n\n\n\n///////////// DEV ZONE /////////////");
+      console.log(
+        `\nuserCoordinates: col = ${userCoordinates.col}, row = ${userCoordinates.row}`
+      );
+    }
+
+    if (devLog) {
+      console.log("counter: ", counter);
+    }
+
+    usedCoordinates.push(userCoordinates);
+
+    if (devLog) {
+      console.log("usedCoordinates: ", usedCoordinates);
+    }
+
+    // backup if compared values are false
+    defaultCoordinates.push(hide[userCoordinates.col][userCoordinates.row]);
+
+    //  reveal hideArr
+    hide[userCoordinates.col][userCoordinates.row] =
+      solution[userCoordinates.col][userCoordinates.row];
+
+    if (counter === 1) {
+      round1String = solution[userCoordinates.col][userCoordinates.row];
+    }
+
+    if (counter === 2) {
+      round2String = solution[userCoordinates.col][userCoordinates.row];
+    }
+
+    if (devLog) {
+      console.log("round1String: ", round1String);
+      console.log("round2String: ", round2String);
+
+      console.log("defaultCoordinates: ", defaultCoordinates);
+      console.log("\n////////////////////////////////////\n\n");
+    }
+
+    if (devLog) {
+      console.log("\nsolArr: \n", solution);
+    }
+
+    if (devLog) {
+      console.log(hide);
+    }
+
+    if (!devLog) {
+      console.log("\n\n\n\n\n", hide);
+    }
+
+    console.log("Points: ", points);
+    if (lastMatch !== null) {
+      console.log("Last Match: ", lastMatch);
+    }
+
+    if (round1String !== round2String && counter === 2) {
+      console.log("\nNO MATCH ...");
+      rl.question(
+        "Take your time to memorize, then press [ENTER] to continue..."
+      );
+      hide[usedCoordinates[1].col][usedCoordinates[1].row] =
+        defaultCoordinates[counter - 1];
+      hide[usedCoordinates[0].col][usedCoordinates[0].row] =
+        defaultCoordinates[counter - 2];
+    }
+
+    if (round1String === round2String && counter === 2) {
+      points++;
+      lastMatch = round1String;
+    }
+
+    counter++;
+
+    if (points === 18) {
+      finished = true;
+    }
   }
-  //////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 function printCategories(obj) {
