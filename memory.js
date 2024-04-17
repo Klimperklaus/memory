@@ -12,7 +12,7 @@ game();
 
 console.log("\nSee you next time !");
 
-// functions
+/////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
 
 function game() {
   let end = false;
@@ -33,14 +33,12 @@ function game() {
     // randomize items in array
     const chosenArray = Object.values(categories[choice]);
 
-    // create solution
+    // create solution - size based on chosenArray.length
     const solutionArr = [];
     chosenArray.forEach(() => {
       const arr = createRandomArray(chosenArray);
       solutionArr.push(arr);
     });
-
-    // console.log("\nsolutionArr: \n", solutionArr);
 
     // hide solution
     const hideArr = solutionArr.map((item, i) => {
@@ -57,9 +55,6 @@ function game() {
     );
     end = endTheGame();
   }
-  //////////////////////////////////////////////////////////////////////////////////////////////
-
-  //////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 function gameLoop(solution, hide) {
@@ -246,3 +241,5 @@ function endTheGame() {
   }
   return false;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
