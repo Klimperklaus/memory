@@ -58,6 +58,7 @@ function game() {
     let round2String;
     let points = 0;
     let lastMatch = null;
+    let endDev = true;
     while (!finished) {
       // back to default
       if (counter > 2) {
@@ -76,10 +77,16 @@ function game() {
         }
       }
 
-      // let devEnd = rl.question("Wanna end ?: ");
-      // if (devEnd === "y") {
-      //   points = 18;
-      // }
+      // developer option, only for presentation
+      if (endDev) {
+        let devEnd = rl.question("Wanna end [y/n]?: ");
+        if (devEnd === "y") {
+          break;
+        }
+        if (devEnd === "n") {
+          endDev = false;
+        }
+      }
 
       // userinput for field
       let userCoordinates = getUserCoordinates();
@@ -139,7 +146,7 @@ function game() {
 
       counter++;
 
-      if (points >= 18) {
+      if (points === 18) {
         finished = true;
       }
     }
