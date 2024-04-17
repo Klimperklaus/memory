@@ -105,7 +105,6 @@ function gameLoop(solution, hide) {
       }
     }
 
-    console.log(firstUserInput);
     // generate input and check if input already found
     let userCoordinates = checkInput(foundPairs, firstUserInput);
 
@@ -175,12 +174,14 @@ function gameLoop(solution, hide) {
         defaultCoordinates[counter - 1];
       hide[usedCoordinates[0].col][usedCoordinates[0].row] =
         defaultCoordinates[counter - 2];
+      firstUserInput = { col: null, row: null };
     }
 
     if (round1String === round2String && counter === 2) {
       points++;
       lastMatch = round1String;
       foundPairs.push(usedCoordinates);
+      firstUserInput = { col: null, row: null };
     }
 
     counter++;
