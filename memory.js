@@ -52,19 +52,65 @@ function game() {
     console.log("\nhideArr: \n", hideArr);
 
     let finished = false;
+    let counter = 1;
+    let usedCoordinates = [];
+    let defaultCoordinates = [];
     while (!finished) {
+      // set counter back if needed
+      if (counter > 2) {
+        counter = 1;
+      }
+
       // userinput for field
       let userCoordinates = getUserCoordinates();
       console.log(
         `\nuserCoordinates: col = ${userCoordinates.col}, row = ${userCoordinates.row}`
       );
 
-      //  position in hideArr
+      usedCoordinates.push(userCoordinates);
+      console.log(usedCoordinates);
+
+      // backup if compared values are false
+      defaultCoordinates.push(
+        hideArr[userCoordinates.col][userCoordinates.row]
+      );
+
+      //  reveal hideArr
       hideArr[userCoordinates.col][userCoordinates.row] =
         solutionArr[userCoordinates.col][userCoordinates.row];
 
+      // comparing streams
+      let round1String;
+      let round2String;
+
+      if (counter === 1) {
+        round1String = solutionArr[userCoordinates.col][userCoordinates.row];
+      }
+
+      if (counter === 2) {
+        round2String = solutionArr[userCoordinates.col][userCoordinates.row];
+      }
+
+      console.log("defaultCoordinates: \n", defaultCoordinates);
+
       console.log("\nsolArr: \n", solutionArr);
       console.log("\nhideArr: \n", hideArr);
+
+      if (round1String !== round2String) {
+        hideArr[userCoordinates.col][userCoordinates.row] =
+          defaultCoordinates[counter - 1];
+      }
+
+      // reset array after 2nd round
+      if (usedCoordinates.length === 2) {
+        usedCoordinates = [];
+      }
+
+      if (defaultCoordinates.length === 2) {
+        defaultCoordinates = [];
+      }
+
+      counter++;
       // finished = true;
     }
 
