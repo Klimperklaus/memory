@@ -59,7 +59,7 @@ function game() {
 
 function gameLoop(solution, hide) {
   let finished = false;
-  let counter = 1;
+  let round = 1;
   let usedCoordinates = [];
   let defaultCoordinates = [];
   let round1String;
@@ -72,15 +72,15 @@ function gameLoop(solution, hide) {
   const foundPairs = [];
   while (!finished) {
     // back to default
-    if (counter > 2) {
-      counter = 1;
+    if (round > 2) {
+      round = 1;
       defaultCoordinates = [];
       usedCoordinates = [];
       round1String = "";
       round2String = "";
     }
 
-    if (counter === 1) {
+    if (round === 1) {
       console.log("\n\n\n\n\n", hide);
       console.log("Points: ", points);
       if (lastMatch !== null) {
@@ -114,7 +114,7 @@ function gameLoop(solution, hide) {
     }
 
     if (devLog) {
-      console.log("counter: ", counter);
+      console.log("round: ", round);
     }
 
     usedCoordinates.push(userCoordinates);
@@ -130,12 +130,12 @@ function gameLoop(solution, hide) {
     hide[userCoordinates.col][userCoordinates.row] =
       solution[userCoordinates.col][userCoordinates.row];
 
-    if (counter === 1) {
+    if (round === 1) {
       round1String = solution[userCoordinates.col][userCoordinates.row];
       firstUserInput = userCoordinates;
     }
 
-    if (counter === 2) {
+    if (round === 2) {
       round2String = solution[userCoordinates.col][userCoordinates.row];
     }
 
@@ -165,26 +165,26 @@ function gameLoop(solution, hide) {
       console.log("Last Match: ", lastMatch);
     }
 
-    if (round1String !== round2String && counter === 2) {
+    if (round1String !== round2String && round === 2) {
       console.log("\nNO MATCH ...");
       rl.question(
         "Take your time to memorize, then press [ENTER] to continue..."
       );
       hide[usedCoordinates[1].col][usedCoordinates[1].row] =
-        defaultCoordinates[counter - 1];
+        defaultCoordinates[round - 1];
       hide[usedCoordinates[0].col][usedCoordinates[0].row] =
-        defaultCoordinates[counter - 2];
+        defaultCoordinates[round - 2];
       firstUserInput = { col: null, row: null };
     }
 
-    if (round1String === round2String && counter === 2) {
+    if (round1String === round2String && round === 2) {
       points++;
       lastMatch = round1String;
       foundPairs.push(usedCoordinates);
       firstUserInput = { col: null, row: null };
     }
 
-    counter++;
+    round++;
 
     if (points === 18) {
       console.log("Points: ", points);
