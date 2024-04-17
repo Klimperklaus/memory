@@ -49,8 +49,6 @@ function game() {
       });
     });
 
-    // console.log("\nhideArr: \n", hideArr);
-
     //////////////////////////////////////////////////////////////////////////////////////////////
     let finished = false;
     let counter = 1;
@@ -78,6 +76,11 @@ function game() {
         }
       }
 
+      // let devEnd = rl.question("Wanna end ?: ");
+      // if (devEnd === "y") {
+      //   points = 18;
+      // }
+
       // userinput for field
       let userCoordinates = getUserCoordinates();
       console.log(
@@ -87,7 +90,7 @@ function game() {
       console.log("counter: ", counter);
 
       usedCoordinates.push(userCoordinates);
-      console.log("usedCoordinates: ", usedCoordinates);
+      // console.log("usedCoordinates: ", usedCoordinates);
 
       // backup if compared values are false
       defaultCoordinates.push(
@@ -106,13 +109,13 @@ function game() {
         round2String = solutionArr[userCoordinates.col][userCoordinates.row];
       }
 
-      console.log("round1String: ", round1String);
-      console.log("round2String: ", round2String);
+      // console.log("round1String: ", round1String);
+      // console.log("round2String: ", round2String);
 
-      console.log("defaultCoordinates: ", defaultCoordinates);
+      // console.log("defaultCoordinates: ", defaultCoordinates);
 
       console.log("\nsolArr: \n", solutionArr);
-      console.log("\n\n\n\n\n", hideArr);
+      console.log(hideArr);
       console.log("Points: ", points);
       if (lastMatch !== null) {
         console.log("Last Match: ", lastMatch);
@@ -135,9 +138,15 @@ function game() {
       }
 
       counter++;
-      // finished = true;
+
+      if (points >= 18) {
+        finished = true;
+      }
     }
 
+    console.log(
+      "\n(>*.*)> Congratulations, you made it, well played ! <(*.*<)"
+    );
     // end game or not
     end = endTheGame();
   }
