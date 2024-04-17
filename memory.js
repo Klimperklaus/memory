@@ -49,7 +49,7 @@ function game() {
       });
     });
 
-    console.log("\nhideArr: \n", hideArr);
+    // console.log("\nhideArr: \n", hideArr);
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     let finished = false;
@@ -67,6 +67,8 @@ function game() {
         round1String = "";
         round2String = "";
       }
+
+      console.log(hideArr);
 
       // userinput for field
       let userCoordinates = getUserCoordinates();
@@ -105,6 +107,9 @@ function game() {
       console.log("\nhideArr: \n", hideArr);
 
       if (round1String !== round2String && counter === 2) {
+        rl.question(
+          "Take your time to memorize, then press [ENTER] to continue..."
+        );
         hideArr[usedCoordinates[1].col][usedCoordinates[1].row] =
           defaultCoordinates[counter - 1];
         hideArr[usedCoordinates[0].col][usedCoordinates[0].row] =
