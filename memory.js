@@ -51,14 +51,21 @@ function game() {
 
     console.log("\nhideArr: \n", hideArr);
 
+    //////////////////////////////////////////////////////////////////////////////////////////////
     let finished = false;
     let counter = 1;
     let usedCoordinates = [];
     let defaultCoordinates = [];
+    let round1String;
+    let round2String;
     while (!finished) {
       // set counter back if needed
       if (counter > 2) {
         counter = 1;
+        defaultCoordinates = [];
+        usedCoordinates = [];
+        round1String = "";
+        round2String = "";
       }
 
       // userinput for field
@@ -67,8 +74,10 @@ function game() {
         `\nuserCoordinates: col = ${userCoordinates.col}, row = ${userCoordinates.row}`
       );
 
+      console.log("counter: ", counter);
+
       usedCoordinates.push(userCoordinates);
-      console.log(usedCoordinates);
+      console.log("usedCoordinates: ", usedCoordinates);
 
       // backup if compared values are false
       defaultCoordinates.push(
@@ -79,10 +88,6 @@ function game() {
       hideArr[userCoordinates.col][userCoordinates.row] =
         solutionArr[userCoordinates.col][userCoordinates.row];
 
-      // comparing streams
-      let round1String;
-      let round2String;
-
       if (counter === 1) {
         round1String = solutionArr[userCoordinates.col][userCoordinates.row];
       }
@@ -91,23 +96,19 @@ function game() {
         round2String = solutionArr[userCoordinates.col][userCoordinates.row];
       }
 
-      console.log("defaultCoordinates: \n", defaultCoordinates);
+      console.log("round1String: ", round1String);
+      console.log("round2String: ", round2String);
+
+      console.log("defaultCoordinates: ", defaultCoordinates);
 
       console.log("\nsolArr: \n", solutionArr);
       console.log("\nhideArr: \n", hideArr);
 
-      if (round1String !== round2String) {
-        hideArr[userCoordinates.col][userCoordinates.row] =
+      if (round1String !== round2String && counter === 2) {
+        hideArr[usedCoordinates[1].col][usedCoordinates[1].row] =
           defaultCoordinates[counter - 1];
-      }
-
-      // reset array after 2nd round
-      if (usedCoordinates.length === 2) {
-        usedCoordinates = [];
-      }
-
-      if (defaultCoordinates.length === 2) {
-        defaultCoordinates = [];
+        hideArr[usedCoordinates[0].col][usedCoordinates[0].row] =
+          defaultCoordinates[counter - 2];
       }
 
       counter++;
@@ -117,6 +118,7 @@ function game() {
     // end game or not
     end = endTheGame();
   }
+  //////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 function printCategories(obj) {
