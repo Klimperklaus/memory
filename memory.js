@@ -68,6 +68,8 @@ function gameLoop(solution, hide) {
   let lastMatch = null;
   let endDev = true;
   let devLog = false;
+  let firstUserInput = { col: null, row: null };
+  const foundPairs = [];
   while (!finished) {
     // back to default
     if (counter > 2) {
@@ -103,14 +105,13 @@ function gameLoop(solution, hide) {
       }
     }
 
-    // userinput for field
-    let userCoordinates = getUserCoordinates();
+    console.log(firstUserInput);
+    // generate input and check if input already found
+    let userCoordinates = checkInput(foundPairs, firstUserInput);
 
     if (devLog) {
-      console.log("\n\n\n\n\n///////////// DEV ZONE /////////////");
-      console.log(
-        `\nuserCoordinates: col = ${userCoordinates.col}, row = ${userCoordinates.row}`
-      );
+      console.log("\n\n\n\n\n///////////// LOGGING /////////////");
+      console.log("\nuserCoordinates: ", userCoordinates);
     }
 
     if (devLog) {
@@ -132,6 +133,7 @@ function gameLoop(solution, hide) {
 
     if (counter === 1) {
       round1String = solution[userCoordinates.col][userCoordinates.row];
+      firstUserInput = userCoordinates;
     }
 
     if (counter === 2) {
@@ -143,6 +145,7 @@ function gameLoop(solution, hide) {
       console.log("round2String: ", round2String);
 
       console.log("defaultCoordinates: ", defaultCoordinates);
+      console.log("foundPairs: ", foundPairs);
       console.log("\n////////////////////////////////////\n\n");
     }
 
@@ -177,6 +180,7 @@ function gameLoop(solution, hide) {
     if (round1String === round2String && counter === 2) {
       points++;
       lastMatch = round1String;
+      foundPairs.push(usedCoordinates);
     }
 
     counter++;
@@ -186,6 +190,31 @@ function gameLoop(solution, hide) {
       finished = true;
     }
   }
+}
+
+function checkInput(arrMatches, firstInput) {
+  let userCoordinates = getUserCoordinates();
+  for (const element of arrMatches) {
+    for (item of element) {
+      while (
+        item.col === userCoordinates.col &&
+        item.row === userCoordinates.row
+      ) {
+        console.log("\nALREADY FOUND ! Please choose other coordinates...");
+        userCoordinates = getUserCoordinates();
+      }
+    }
+  }
+  while (
+    firstInput.col === userCoordinates.col &&
+    firstInput.row === userCoordinates.row
+  ) {
+    console.log(
+      "\nSECOND INPUT MATCHES FIRST INPUT ! Please choose other coordinates..."
+    );
+    userCoordinates = getUserCoordinates();
+  }
+  return userCoordinates;
 }
 
 function printCategories(obj) {
