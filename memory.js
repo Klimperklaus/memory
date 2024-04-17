@@ -59,6 +59,7 @@ function game() {
     let points = 0;
     let lastMatch = null;
     let endDev = true;
+    let devLog = false;
     while (!finished) {
       // back to default
       if (counter > 2) {
@@ -79,25 +80,40 @@ function game() {
 
       // developer option, only for presentation
       if (endDev) {
-        let devEnd = rl.question("Wanna end [y/n]?: ");
+        let devEnd = rl.question("\nDEV -> Wanna end [y/n]?: ");
         if (devEnd === "y") {
           break;
         }
         if (devEnd === "n") {
           endDev = false;
+          const devDecision = rl.question(
+            "\nDEV -> Wanna activate variable logging [y/n]?: "
+          );
+          if (devDecision === "y") {
+            devLog = true;
+          }
         }
       }
 
       // userinput for field
       let userCoordinates = getUserCoordinates();
-      console.log(
-        `\nuserCoordinates: col = ${userCoordinates.col}, row = ${userCoordinates.row}`
-      );
 
-      console.log("counter: ", counter);
+      if (devLog) {
+        console.log("\n\n\n\n\n///////////// DEV ZONE /////////////");
+        console.log(
+          `\nuserCoordinates: col = ${userCoordinates.col}, row = ${userCoordinates.row}`
+        );
+      }
+
+      if (devLog) {
+        console.log("counter: ", counter);
+      }
 
       usedCoordinates.push(userCoordinates);
-      // console.log("usedCoordinates: ", usedCoordinates);
+
+      if (devLog) {
+        console.log("usedCoordinates: ", usedCoordinates);
+      }
 
       // backup if compared values are false
       defaultCoordinates.push(
@@ -116,13 +132,26 @@ function game() {
         round2String = solutionArr[userCoordinates.col][userCoordinates.row];
       }
 
-      // console.log("round1String: ", round1String);
-      // console.log("round2String: ", round2String);
+      if (devLog) {
+        console.log("round1String: ", round1String);
+        console.log("round2String: ", round2String);
 
-      // console.log("defaultCoordinates: ", defaultCoordinates);
+        console.log("defaultCoordinates: ", defaultCoordinates);
+        console.log("\n////////////////////////////////////\n\n");
+      }
 
-      console.log("\nsolArr: \n", solutionArr);
-      console.log(hideArr);
+      if (devLog) {
+        console.log("\nsolArr: \n", solutionArr);
+      }
+
+      if (devLog) {
+        console.log(hideArr);
+      }
+
+      if (!devLog) {
+        console.log("\n\n\n\n\n", hideArr);
+      }
+
       console.log("Points: ", points);
       if (lastMatch !== null) {
         console.log("Last Match: ", lastMatch);
