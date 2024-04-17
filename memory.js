@@ -44,11 +44,8 @@ function game() {
 
     // hide solution
     const hideArr = solutionArr.map((item, i) => {
-      return item.map((_element) => {
-        if (i % 2 == 0) {
-          return (_element = "(>*_*<)");
-        }
-        return (_element = "(>0.0<)");
+      return item.map((_element, j) => {
+        return (_element = `${i}${j}`);
       });
     });
 
@@ -57,11 +54,18 @@ function game() {
     let finished = false;
     while (!finished) {
       // userinput for field
-      const userCoordinates = getUserCoordinates();
+      let userCoordinates = getUserCoordinates();
       console.log(
-        `userCoordinates: col = ${userCoordinates.col}, row = ${userCoordinates.row}`
+        `\nuserCoordinates: col = ${userCoordinates.col}, row = ${userCoordinates.row}`
       );
-      finished = true;
+
+      //  position in hideArr
+      hideArr[userCoordinates.col][userCoordinates.row] =
+        solutionArr[userCoordinates.col][userCoordinates.row];
+
+      console.log("\nsolArr: \n", solutionArr);
+      console.log("\nhideArr: \n", hideArr);
+      // finished = true;
     }
 
     // end game or not
