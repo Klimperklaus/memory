@@ -247,8 +247,9 @@ function gameLoop(solution, hide) {
     round++;
 
     /*
-    
-          8. If all cards revealed, we end the game
+          =============================================
+          | 8. If all cards revealed, we end the game |
+          =============================================
     */
 
     if (points === 18) {
