@@ -1,5 +1,8 @@
+/////////////////////////////////////// PROGRAMM ///////////////////////////////////////
+
 const rl = require("readline-sync");
 
+// catgories to choose from
 const categories = {
   animals: ["Monkey", "Dog", "Rabbit", "Pigeon", "Dolphin", "Snake"],
   cars: ["BMW", "Mercedes", "Ford", "Nissan", "Mitsubishi", "Ferrari"],
@@ -8,37 +11,59 @@ const categories = {
   movies: ["Mad Max", "Die Hard", "Frozen", "Bambi", "Bloodsport", "Jumanji"],
 };
 
+// game logic
 game();
 
+// end of game
 console.log("\nSee you next time !");
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////// FUNCTIONS ///////////////////////////////////////
 
 function game() {
   let end = false;
   while (!end) {
-    // print categories
+    /*
+        ==============================
+        | 1. Player chooses category |
+        ==============================
+    */
+
+    // print categories to show user the available commands
     printCategories(categories);
 
-    // user choose category
+    // user chooses category he wants to play
     let choice = rl.question("\nType in a category name: ");
 
-    // if userinput is not in categories array, get a new input until its valid
+    // if userinput is not in categories object, get a new input until its valid
     while (!Object.hasOwn(categories, choice)) {
       choice = rl.question(
         "\nNo matching category found, pls choose a valid category name: "
       );
     }
 
-    // randomize items in array
+    // get array which user choose
     const chosenArray = Object.values(categories[choice]);
 
-    // create solution - size based on chosenArray.length
+    /*
+          ======================
+          | 2. Cards get mixed |
+          ======================
+     */
+
+    // create solution array - size based on number of chosenArray elements
     const solutionArr = [];
     chosenArray.forEach(() => {
       const arr = createRandomArray(chosenArray);
       solutionArr.push(arr);
     });
+
+    /*
+          =================
+          | 3. Hide cards |
+          =================
+    */
 
     // hide solution
     const hideArr = solutionArr.map((item, i) => {
@@ -47,12 +72,20 @@ function game() {
       });
     });
 
+    // function where the actual game logic is running
     gameLoop(solutionArr, hideArr);
 
     // end game or not
     console.log(
       "\n(>*.*)> Congratulations, you made it, well played ! <(*.*<)"
     );
+
+    /*
+          ===============================================
+          | 9. Player decides to play a new game or not |
+          ===============================================
+    */
+
     end = endTheGame();
   }
 }
@@ -105,16 +138,19 @@ function gameLoop(solution, hide) {
       }
     }
 
+    /*
+          ======================================
+          | 4. Player chooses a card to reveal |
+          ======================================
+    */
+
     // generate input and check if input already found
     let userCoordinates = checkInput(foundPairs, firstUserInput);
 
     if (devLog) {
-      console.log("\n\n\n\n\n///////////// LOGGING /////////////");
-      console.log("\nuserCoordinates: ", userCoordinates);
-    }
-
-    if (devLog) {
+      console.log("\n\n\n\n\n///////////// LOGGING /////////////\n");
       console.log("round: ", round);
+      console.log("userCoordinates: ", userCoordinates);
     }
 
     usedCoordinates.push(userCoordinates);
@@ -125,6 +161,12 @@ function gameLoop(solution, hide) {
 
     // backup if compared values are false
     defaultCoordinates.push(hide[userCoordinates.col][userCoordinates.row]);
+
+    /*
+          =====================================
+          | 5. Player reveals the chosen card |
+          =====================================
+    */
 
     //  reveal hideArr
     hide[userCoordinates.col][userCoordinates.row] =
@@ -165,6 +207,12 @@ function gameLoop(solution, hide) {
       console.log("Last Match: ", lastMatch);
     }
 
+    /*
+          ===================================================
+          | 7.1 If cards not match, hide the revealed cards |
+          ===================================================
+    */
+
     if (round1String !== round2String && round === 2) {
       console.log("\nNO MATCH ...");
       rl.question(
@@ -177,6 +225,12 @@ function gameLoop(solution, hide) {
       firstUserInput = { col: null, row: null };
     }
 
+    /*
+          ===========================================
+          | 7.2 If cards match, cards keep revealed |
+          ===========================================
+    */
+
     if (round1String === round2String && round === 2) {
       points++;
       lastMatch = round1String;
@@ -184,7 +238,18 @@ function gameLoop(solution, hide) {
       firstUserInput = { col: null, row: null };
     }
 
+    /*
+          ===================================================================================================
+          | 6. If player revealed only 1 card at this time he goes into next round and reveals another card |
+          ===================================================================================================
+    */
+
     round++;
+
+    /*
+    
+          8. If all cards revealed, we end the game
+    */
 
     if (points === 18) {
       console.log("Points: ", points);
